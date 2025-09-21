@@ -1,0 +1,407 @@
+<!-- save as templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VETANA — Home</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#121212;
+      --accent-cyan:#00D4FF;
+      --gunmetal:#2C2C2C;
+      --electric:#00FF85;
+      --text:#E6EEF3;
+      --muted:#9AA6B2;
+    }
+
+    /* Global Styles */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:url("{{ url_for('static', filename='app6.jpg') }}") no-repeat center/cover;
+      color:var(--text);
+      overflow-x:hidden;
+      perspective:1200px;
+    }
+
+    .page-overlay{
+      background:linear-gradient(180deg, rgba(18,18,18,0.85), rgba(18,18,18,0.95));
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* NAVBAR */
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 28px;
+      background:rgba(0,0,0,0.25);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+      position:sticky;
+      top:0;
+      z-index:80;
+    }
+
+    .nav-left{
+      display:flex;
+      align-items:center;
+    }
+
+    .logo-rect img{
+      height:48px;
+      width:auto;
+      border-radius:6px;
+      box-shadow:0 6px 16px rgba(0,212,255,0.15);
+      transform:translateZ(10px);
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    input.search{
+      width:300px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:rgba(255,255,255,0.03);
+      color:var(--text);
+      font-size:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.6);
+    }
+    input.search:focus{box-shadow:0 10px 30px rgba(0,212,255,0.12)}
+
+    .btn-sign{
+      background:linear-gradient(180deg,var(--accent-cyan),#00bfff);
+      color:var(--bg);
+      padding:10px 18px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow:0 10px 30px rgba(0,212,255,0.12);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .btn-sign:hover{
+      transform:translateY(-4px) scale(1.03);
+      box-shadow:0 16px 40px rgba(0,212,255,0.18);
+    }
+
+    /* Profile Emoji Style */
+    .profile-emoji {
+      font-size: 26px;
+      border: 2px solid var(--accent-cyan);
+      border-radius: 50%;
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.05);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 212, 255, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .profile-emoji:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+    }
+
+    /* Logout Link Style */
+    .dropdown-content a {
+      display:block;
+      padding:10px;
+      color:white;
+      text-decoration:none;
+      font-family:"Orbitron",sans-serif;
+      font-weight:700;
+      letter-spacing:1px;
+      font-size:15px;
+      text-align:center;
+      background: linear-gradient(145deg, #00D4FF, #00FF85);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 1px 1px 6px rgba(0,212,255,0.4);
+      transition: transform 0.2s ease;
+    }
+    .dropdown-content a:hover {
+      transform: scale(1.05);
+    }
+
+    /* HERO SECTION */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:50px 20px;
+      text-align:center;
+    }
+
+    .main-tag{
+      font-family:"Orbitron",sans-serif;
+      font-weight:700;
+      font-size:48px;
+      color:transparent;
+      background:linear-gradient(90deg,var(--accent-cyan),var(--electric),#00d4ff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      letter-spacing:1px;
+      animation:shimmer 3.6s linear infinite;
+      text-shadow:0 2px 8px rgba(0,212,255,0.15);
+      transform:translateZ(30px) rotateX(1deg);
+    }
+    @keyframes shimmer{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .sub-tag{
+      font-family:"Poppins",sans-serif;
+      font-size:20px;
+      font-weight:600;
+      color:var(--electric);
+      animation:floaty 4s ease-in-out infinite;
+    }
+    @keyframes floaty{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-8px)}
+      100%{transform:translateY(0)}
+    }
+
+    .job-list{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:16px;
+    }
+    .job-item{
+      padding:10px 16px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.03);
+      color:var(--accent-cyan);
+      font-family:"Orbitron",sans-serif;
+      font-weight:700;
+      transition:transform .2s,box-shadow .2s;
+      box-shadow:0 4px 10px rgba(0,0,0,0.4);
+    }
+    .job-item:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 10px 30px rgba(0,212,255,0.2)}
+
+    /* CAROUSEL */
+    .carousel-wrap{
+      width:min(880px,94%);
+      margin:28px auto;
+      position:relative;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    }
+    .carousel-img{
+      width:100%;
+      height:420px;
+      object-fit:cover;
+      transition:opacity 1s ease,transform .6s ease;
+    }
+    .arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      background:rgba(0,0,0,0.5);border-radius:50%;
+      width:50px;height:50px;display:flex;align-items:center;justify-content:center;
+      color:var(--accent-cyan);cursor:pointer;opacity:0;transition:opacity .2s;
+    }
+    .carousel-wrap:hover .arrow{opacity:1}
+    .arrow-left{left:18px}
+    .arrow-right{right:18px}
+
+    /* ABOUT SECTION */
+    .about{
+      width:min(900px,94%);
+      margin:40px auto;
+      padding:22px;
+      border-radius:12px;
+      background:rgba(44,44,44,0.4);
+      border:1px solid rgba(0,212,255,0.04);
+      text-align:center;
+      transition:box-shadow .3s ease;
+    }
+    .about:hover{box-shadow:0 10px 40px rgba(0,212,255,0.15)}
+    .about h3{color:var(--accent-cyan);font-family:"Orbitron",sans-serif}
+
+    /* CONTACT SECTION */
+    .contact-section{
+      text-align:center;
+      margin:30px auto;
+    }
+    .contact-section h3{
+      color:var(--accent-cyan);
+      font-family:"Orbitron",sans-serif;
+    }
+    .contact-icons{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      margin-top:10px;
+    }
+    .contact-icons a{
+      color:var(--accent-cyan);
+      font-size:28px;
+      transition:transform .2s,color .2s;
+    }
+    .contact-icons a:hover{transform:translateY(-4px);color:var(--electric)}
+
+    .page-footer{text-align:center;padding:18px;color:rgba(255,255,255,0.6);font-size:13px;margin-top:30px}
+
+    @media(max-width:560px){
+      input.search{display:none}
+      .carousel-img{height:260px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page-overlay">
+<header class="nav">
+  <div class="nav-left">
+    <div class="logo-rect">
+      <img src="{{ url_for('static', filename='logo2.jpg') }}" alt="logo">
+    </div>
+  </div>
+  <div class="nav-right">
+    <input class="search" type="search" placeholder="🔎 Search jobs or skills (e.g. plumber)">
+
+    {% if session.get('user_id') %}
+      <!-- Profile emoji with dropdown -->
+      <div class="profile-dropdown" style="position:relative; display:inline-block;">
+        <span class="profile-emoji">👤</span>
+        <div class="dropdown-content" style="display:none; position:absolute; right:0; background:rgba(18,18,18,0.95); min-width:120px; box-shadow:0 4px 8px rgba(0,0,0,0.2); border-radius:8px; z-index:100;">
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+      </div>
+
+      <script>
+        const profile = document.querySelector('.profile-dropdown');
+        const dropdown = profile.querySelector('.dropdown-content');
+        profile.addEventListener('click', () => {
+          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        window.addEventListener('click', function(e) {
+          if (!profile.contains(e.target)) {
+            dropdown.style.display = 'none';
+          }
+        });
+      </script>
+    {% else %}
+      <button class="btn-sign" onclick="window.location.href='{{ url_for('signin') }}'">Sign Up</button>
+    {% endif %}
+  </div>
+</header>
+
+<!-- REST OF YOUR PAGE STAYS SAME -->
+
+
+    <!-- HERO SECTION -->
+    <main class="hero">
+      <div class="main-tag" style="line-height:1.6;">WORTH BEYOND PAY</div>
+      <div class="sub-tag" style="color:var(--muted);margin-top:8px;line-height:1.8;">Connecting work & trust — instantly</div>
+      <div class="sub-tag" style="margin-top:18px;font-size:18px;color:var(--accent-cyan);font-weight:700;line-height:1.8;">Job Deck</div>
+
+      <div class="job-list" style="margin-top:22px;">
+        <div class="job-item">Plumber</div>
+        <div class="job-item">Maid</div>
+        <div class="job-item">Painter</div>
+        <div class="job-item">Carpenter</div>
+      </div>
+    </main>
+
+    <!-- Carousel -->
+    <div class="carousel-wrap" id="carouselWrap">
+      <img id="carouselImage" class="carousel-img" src="{{ url_for('static', filename='app5.jpg') }}">
+      <div class="arrow arrow-left" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></div>
+      <div class="arrow arrow-right" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></div>
+    </div>
+
+    <!-- About -->
+    <article class="about">
+      <h3>About Us</h3>
+      <p>
+        We built Vetana with a simple vision – to give daily wage workers better opportunities
+        and to make hiring stress-free for employers. Whether you’re looking for work or need trusted help,
+        Vetana connects you instantly. Together, we’re building a platform that values hard work, trust, and growth.
+      </p>
+    </article>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+      <h3>Contact Us</h3>
+      <div class="contact-icons">
+        <a href="mailto:vetana@example.com"><i class="fa-regular fa-envelope"></i></a>
+        <a href="https://instagram.com/vetana" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://linkedin.com/in/vetana" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://facebook.com/vetana" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+    </section>
+
+    <div class="page-footer">© <strong>VETANA</strong> — connecting people & work</div>
+  </div>
+
+  <script>
+    // Profile logout toggle
+    const profileIcon = document.getElementById('profileIcon');
+    const logoutMenu = document.getElementById('logoutMenu');
+
+    if(profileIcon) {
+      profileIcon.addEventListener('click', () => {
+        logoutMenu.style.display = logoutMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!profileIcon.contains(e.target) && !logoutMenu.contains(e.target)) {
+          logoutMenu.style.display = 'none';
+        }
+      });
+    }
+
+    // Carousel JS
+    (function(){
+      const images=[
+        "{{ url_for('static', filename='app2.jpg') }}",
+        "{{ url_for('static', filename='app3.jpg') }}",
+        "{{ url_for('static', filename='app1.jpg') }}",
+        "{{ url_for('static', filename='app4.jpg') }}",
+        "{{ url_for('static', filename='app5.jpg') }}",
+        "{{ url_for('static', filename='app6.jpg') }}"
+      ];
+      let currentIndex=4;
+      const imgEl=document.getElementById('carouselImage');
+      const nextBtn=document.getElementById('nextBtn');
+      const prevBtn=document.getElementById('prevBtn');
+
+      function show(i){
+        imgEl.style.opacity=0;
+        setTimeout(()=>{ imgEl.src=images[i]; imgEl.style.opacity=1; },300);
+      }
+      function next(){
+        currentIndex=(currentIndex+1)%images.length;
+        show(currentIndex);
+      }
+      function prev(){
+        currentIndex=(currentIndex-1+images.length)%images.length;
+        show(currentIndex);
+      }
+      nextBtn.addEventListener('click',next);
+      prevBtn.addEventListener('click',prev);
+      setInterval(next,4000);
+    })();
+  </script>
+</body>
+</html>

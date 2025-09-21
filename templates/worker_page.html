@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Details</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("{{ url_for('static', filename='app9.jpg') }}") no-repeat center center/cover;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+    }
+    .container {
+      background: #121212;
+      padding: 20px 25px;
+      border-radius: 12px;
+      width: 750px;
+      box-shadow: 0 0 20px #00D4FF;
+    }
+    h1#worker-info-title {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: #00D4FF;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    label.section-label {
+      display: block;
+      font-family: "Times New Roman", Times, serif;
+      font-weight: bold;
+      font-size: 18px;
+      color: #00D4FF;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    select, input[type="text"], input[type="number"], textarea {
+      width: 100%;
+      padding: 7px 8px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #00D4FF;
+      background: #2C2C2C;
+      color: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .checkbox-columns, .radio-group, .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .checkbox-columns label,
+    .radio-group label,
+    .checkbox-group label {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+    button {
+      background: #00D4FF;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #00FF85;
+      transform: scale(1.05);
+    }
+    .other-input {
+      display: none;
+      margin-left: 5px;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #00D4FF;
+      background: #2C2C2C;
+      color: #FFFFFF;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="worker-info-title">Worker Info:</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, msg in messages %}
+            <li style="color: {{ 'red' if category=='error' else 'green' }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('worker_page') }}">
+      
+      <!-- Gender -->
+      <label class="section-label">Gender</label>
+      <div class="radio-group">
+        <label><input type="radio" name="gender" value="Male" required> Male</label>
+        <label><input type="radio" name="gender" value="Female" required> Female</label>
+      </div>
+
+      <!-- Age -->
+      <label class="section-label" for="age">Age</label>
+      <select name="age" id="age" required>
+        <option value="">--Select Age Range--</option>
+        <option>18-24</option>
+        <option>25-34</option>
+        <option>35-44</option>
+        <option>45-54</option>
+      </select>
+
+      <!-- Location -->
+      <label class="section-label" for="location">Location</label>
+      <select name="location" id="location" required>
+        <option value="">--Select Location--</option>
+        {% for loc in [
+          "Navanagar, Bagalkot, Karnataka","Vidyagiri, Bagalkot, Karnataka",
+          "Neelanagar, Bagalkot, Karnataka","Sundar Nagar, Bagalkot, Karnataka",
+          "Shivarampur, Bagalkot, Karnataka","Ramnagar, Bagalkot, Karnataka",
+          "Station Road / Railway Colony, Bagalkot, Karnataka","Karnataka Bank Colony, Bagalkot, Karnataka",
+          "Old Bus Stand Area, Bagalkot, Karnataka","Chikodi Road Area, Bagalkot, Karnataka",
+          "Kalasapur, Bagalkot, Karnataka","Gandhinagar, Bagalkot, Karnataka",
+          "Sigikeri, Bagalkot, Karnataka","Simikeri, Bagalkot, Karnataka",
+          "Sirur, Bagalkot, Karnataka","Rampur, Bagalkot, Karnataka",
+          "Salagundi, Bagalkot, Karnataka","Sangapur, Bagalkot, Karnataka",
+          "Sangondi, Bagalkot, Karnataka","Sharadal, Bagalkot, Karnataka",
+          "Sidnal, Bagalkot, Karnataka","Sindagi, Bagalkot, Karnataka",
+          "Siraguppi, Bagalkot, Karnataka","Sitimani, Bagalkot, Karnataka",
+          "Sokanadgi, Bagalkot, Karnataka","Sorakopp, Bagalkot, Karnataka",
+          "Hullyal Layout, Bagalkot, Karnataka","Mallapur S L, Bagalkot, Karnataka",
+          "Budni KD, Bagalkot, Karnataka","Kodag Plot, Bagalkot, Karnataka"
+        ] %}
+          <option>{{ loc }}</option>
+        {% endfor %}
+      </select>
+
+      <!-- Type of Work -->
+      <label class="section-label">Type of Work</label>
+      <div class="checkbox-columns">
+        <label><input type="checkbox" name="type_of_work" value="Maid / Housekeeping"> Maid / Housekeeping</label>
+        <label><input type="checkbox" name="type_of_work" value="Cook / Chef"> Cook / Chef</label>
+        <label><input type="checkbox" name="type_of_work" value="Driver / Delivery Person"> Driver / Delivery Person</label>
+        <label><input type="checkbox" name="type_of_work" value="Electrician"> Electrician</label>
+        <label><input type="checkbox" name="type_of_work" value="Plumber"> Plumber</label>
+        <label><input type="checkbox" name="type_of_work" value="Carpenter"> Carpenter</label>
+        <label><input type="checkbox" name="type_of_work" value="Painter"> Painter</label>
+        <label><input type="checkbox" name="type_of_work" value="Gardener"> Gardener</label>
+        <label><input type="checkbox" name="type_of_work" value="Babysitter / Nanny"> Babysitter / Nanny</label>
+        <!-- Other -->
+        <label><input type="checkbox" id="work-other-checkbox"> Other
+          <input type="text" class="other-input" id="work-other-text" name="work_other" placeholder="Enter other work">
+        </label>
+      </div>
+
+      <!-- Availability -->
+      <label class="section-label">Availability</label>
+      <div class="checkbox-columns">
+        <label><input type="checkbox" name="availability" value="Full-time"> Full-time</label>
+        <label><input type="checkbox" name="availability" value="Part-time"> Part-time</label>
+        <label><input type="checkbox" name="availability" value="Hourly"> Hourly</label>
+        <label><input type="checkbox" name="availability" value="Daily"> Daily</label>
+      </div>
+
+      <!-- Income Preference -->
+      <label class="section-label">Income Preference</label>
+      <div class="radio-group">
+        <label><input type="radio" name="income_pref" value="per hour" required> Per Hour</label>
+        <label><input type="radio" name="income_pref" value="per day" required> Per Day</label>
+        <label><input type="radio" name="income_pref" value="per month" required> Per Month</label>
+      </div>
+
+      <!-- Expected Pay -->
+      <label class="section-label">Expected Pay (per hour)</label>
+      <select name="expected_pay" required>
+        <option value="">--Select Expected Pay--</option>
+        <option>100-200 Rs</option>
+        <option>200-300 Rs</option>
+        <option>300-500 Rs</option>
+        <option>500 Rs per hour</option>
+      </select>
+
+      <!-- Languages Known -->
+      <label class="section-label">Languages Known</label>
+      <div class="checkbox-columns">
+        <label><input type="checkbox" name="languages_known" value="Kannada"> Kannada</label>
+        <label><input type="checkbox" name="languages_known" value="English"> English</label>
+        <label><input type="checkbox" name="languages_known" value="Hindi"> Hindi</label>
+        <label><input type="checkbox" name="languages_known" value="Telugu"> Telugu</label>
+        <label><input type="checkbox" name="languages_known" value="Marathi"> Marathi</label>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const workCheckbox = document.getElementById('work-other-checkbox');
+    const workOtherInput = document.getElementById('work-other-text');
+    workCheckbox.addEventListener('change', () => {
+      workOtherInput.style.display = workCheckbox.checked ? 'inline-block' : 'none';
+    });
+  </script>
+</body>
+</html>

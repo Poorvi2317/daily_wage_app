@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("{{ url_for('static', filename='app7.jpg') }}") no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(18, 18, 18, 0.85);
+      padding: 30px;
+      border-radius: 12px;
+      width: 380px;
+      box-shadow: 0px 0px 15px #00D4FF;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    h2 {
+      color: #00D4FF;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 5px;
+      border: 1px solid #00D4FF;
+      border-radius: 8px;
+      background: #2C2C2C;
+      color: white;
+      outline: none;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #00D4FF;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
+    .error {
+      font-size: 12px;
+      color: red;
+      text-align: left;
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .server-success {
+      font-size: 13px;
+      color: #00FF85;
+      text-align: center;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    button {
+      background: #00D4FF;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00FF85;
+      transform: scale(1.05);
+    }
+
+    .login-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #00D4FF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .role-selection {
+      margin: 10px 0 15px 0;
+      text-align: left;
+    }
+    .role-selection label {
+      display: inline-block;
+      font-weight: normal;
+      margin-right: 15px;
+    }
+
+    .back-arrow {
+      position: absolute;
+      left: -70px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: #00D4FF;
+      cursor: pointer;
+      border: 2px solid #00D4FF;
+      border-radius: 50%;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.6);
+      text-shadow: 0px 0px 10px #00D4FF;
+      box-shadow: 0px 0px 10px #00D4FF;
+      transition: transform 0.3s ease, text-shadow 0.3s ease, box-shadow 0.3s ease;
+    }
+    .back-arrow:hover {
+      transform: translateY(-50%) scale(1.2);
+      text-shadow: 0px 0px 20px #00FF85;
+      box-shadow: 0px 0px 15px #00FF85;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back-arrow" onclick="window.location.href='{{ url_for('home') }}'">&#8592;</div>
+
+    <h2>Sign Up</h2>
+
+    <div id="serverSuccess" class="server-success"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="serverFlashHolder" style="display:none;">
+          {% for category, msg in messages %}
+            <div class="serverFlash" data-category="{{ category }}" data-msg="{{ msg|e }}"></div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form id="signupForm" method="POST" action="{{ url_for('signin') }}">
+      <label>Full Name:</label>
+      <input type="text" name="full_name" id="fullname" placeholder="What is your name?" required>
+      <div class="error" id="fullnameError">Please enter your full name.</div>
+
+      <label>Username:</label>
+      <input type="text" name="username" id="username" placeholder="Enter unique username" required>
+      <div class="hint">Include small letters, digits, _ , @</div>
+      <div class="error" id="usernameError">Please enter a valid username (only small letters, digits, _ , @ allowed).</div>
+
+      <label>Password:</label>
+      <input type="password" name="password" id="password" placeholder="Minimum 6 characters." required>
+      <div class="error" id="passwordError">Password must be at least 6 characters.</div>
+
+      <label>Confirm Password:</label>
+      <input type="password" name="confirm_password" id="confirmPassword" placeholder="Enter the same password" required>
+      <div class="error" id="confirmPasswordError">Passwords do not match.</div>
+
+      <label>Mobile Number:</label>
+      <input type="text" name="mobile" id="mobile" placeholder="Enter your mobile number." required>
+      <div class="error" id="mobileError">Enter a valid 10-digit mobile number.</div>
+
+      <div class="role-selection">
+        <label><input type="radio" name="role" value="user" checked> User</label>
+        <label><input type="radio" name="role" value="worker"> Worker</label>
+        <div class="error" id="roleError">Please select a role.</div>
+      </div>
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById("signupForm");
+    const fullname = document.getElementById("fullname");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const mobile = document.getElementById("mobile");
+
+    const fullnameError = document.getElementById("fullnameError");
+    const usernameError = document.getElementById("usernameError");
+    const passwordError = document.getElementById("passwordError");
+    const confirmPasswordError = document.getElementById("confirmPasswordError");
+    const mobileError = document.getElementById("mobileError");
+    const roleError = document.getElementById("roleError");
+
+    const serverFlashHolder = document.getElementById("serverFlashHolder");
+    const serverSuccess = document.getElementById("serverSuccess");
+
+    function showError(el, msg) {
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+    function hideError(el) {
+      el.style.display = "none";
+    }
+
+    signupForm.addEventListener("submit", function (e) {
+      let valid = true;
+      [fullnameError, usernameError, passwordError, confirmPasswordError, mobileError, roleError].forEach(hideError);
+      serverSuccess.style.display = "none";
+
+      if (fullname.value.trim() === "") {
+        showError(fullnameError, "Please enter your full name.");
+        valid = false;
+      }
+
+      if (!/^[a-z0-9_@]+$/.test(username.value.trim())) {
+        showError(usernameError, "Please enter a valid username (only small letters, digits, _ , @ allowed).");
+        valid = false;
+      }
+
+      if (password.value.length < 6) {
+        showError(passwordError, "Password must be at least 6 characters.");
+        valid = false;
+      }
+
+      if (password.value !== confirmPassword.value) {
+        showError(confirmPasswordError, "Passwords do not match.");
+        valid = false;
+      }
+
+      if (!/^[0-9]{10}$/.test(mobile.value)) {
+        showError(mobileError, "Enter a valid 10-digit mobile number.");
+        valid = false;
+      }
+
+      // check role selected
+      const roleSelected = document.querySelector('input[name="role"]:checked');
+      if (!roleSelected) {
+        showError(roleError, "Please select a role.");
+        valid = false;
+      }
+
+      if (!valid) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // live validation
+    fullname.addEventListener("input", () => {
+      if (fullname.value.trim() !== "") hideError(fullnameError);
+    });
+
+    username.addEventListener("input", () => {
+      if (/^[a-z0-9_@]+$/.test(username.value)) hideError(usernameError);
+    });
+
+    password.addEventListener("input", () => {
+      if (password.value.length >= 6) hideError(passwordError);
+      if (confirmPassword.value === password.value) hideError(confirmPasswordError);
+    });
+
+    confirmPassword.addEventListener("input", () => {
+      if (confirmPassword.value === password.value) hideError(confirmPasswordError);
+    });
+
+    mobile.addEventListener("input", () => {
+      if (/^[0-9]{10}$/.test(mobile.value)) hideError(mobileError);
+    });
+
+    // server flashes
+    if (serverFlashHolder) {
+      const serverFlashes = serverFlashHolder.querySelectorAll(".serverFlash");
+      serverFlashes.forEach(div => {
+        const msg = div.dataset.msg || "";
+        const cat = (div.dataset.category || "").toLowerCase();
+
+        if (cat === "success") {
+          serverSuccess.textContent = msg;
+          serverSuccess.style.display = "block";
+          return;
+        }
+
+        if (msg.includes("Username already exists")) {
+          showError(usernameError, msg);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
