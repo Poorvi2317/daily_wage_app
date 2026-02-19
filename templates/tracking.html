@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Worker Tracking</title>
+
+    <style>
+        :root {
+            --bg: #121212;
+            --accent-cyan: #00D4FF;
+            --electric: #00FF85;
+            --text: #E6EEF3;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(10px);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .back-btn {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--electric));
+            padding: 8px 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            color: black;
+        }
+
+        #map {
+            height: calc(100vh - 60px);
+            width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+        <h2 style="margin:0; font-family:Orbitron; color:var(--accent-cyan);">Live Worker Tracking</h2>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDl4hecRL6hEhouN8zce9hnBb8z03XxlE",
+            authDomain: "vetana-tracking.firebaseapp.com",
+            databaseURL: "https://vetana-tracking-default-rtdb.firebaseio.com",
+            projectId: "vetana-tracking",
+            storageBucket: "vetana-tracking.appspot.com",
+            messagingSenderId: "726246346574",
+            appId: "1:726246346574:web:4bbb8c22b691d1fb1a181f"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFeQzK2f3xrH5kJNTibM018oUW4c-GBNY"></script>
+
+    <script>
+        let map;
+        let workerMarker = null;
+        let userMarker = null;
+
+        // Values from Flask
+        const workerId = {{ worker_id }};
+        const userLat = {{ user_lat }};
+        const userLng = {{ user_lng }};
+        const workerLat = {{ worker_lat }};
+        const workerLng = {{ worker_lng }};
+
+        function initMap() {
+            const initialCenter = { lat: userLat, lng: userLng };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: initialCenter,
+                styles: [
+                    { elementType: "geometry", stylers: [{ color: "#1d1d1d" }] },
+                    { elementType: "labels.text.fill", stylers: [{ color: "#E6EEF3" }] },
+                    { elementType: "labels.text.stroke", stylers: [{ color: "#121212" }] },
+                    { featureType: "road", stylers: [{ color: "#2c2c2c" }] },
+                    { featureType: "water", stylers: [{ color: "#111" }] },
+                ]
+            });
+
+            // USER Static Marker
+            userMarker = new google.maps.Marker({
+                position: { lat: userLat, lng: userLng },
+                map: map,
+                label: { text: "U", color: "white" }
+            });
+
+            // WORKER Static Marker (before live updates)
+            workerMarker = new google.maps.Marker({
+                position: { lat: workerLat, lng: workerLng },
+                map: map,
+                label: { text: "W", color: "yellow" }
+            });
+
+            startWorkerLiveUpdate();
+        }
+
+        // 🔥 Real-time worker tracking (Firebase)
+        function startWorkerLiveUpdate() {
+            const ref = firebase.database().ref("live_locations/worker_" + workerId);
+
+            ref.on("value", (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+
+                const newPos = { lat: data.lat, lng: data.lng };
+
+                workerMarker.setPosition(newPos);
+                map.panTo(newPos);
+            });
+        }
+
+        initMap();
+    </script>
+
+</body>
+</html>

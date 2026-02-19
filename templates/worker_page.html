@@ -1,114 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Details</title>
+  <meta charset="UTF-8"> <!-- Set character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design meta tag -->
+  <title>Worker Details</title> <!-- Page title -->
   <style>
+    /* BODY STYLES */
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url("{{ url_for('static', filename='app9.jpg') }}") no-repeat center center/cover;
-      color: #FFFFFF;
-      display: flex;
-      justify-content: center;
-      padding: 20px 0;
+      margin: 0; /* Remove default margin */
+      font-family: Arial, sans-serif; /* Default font */
+      background: url("{{ url_for('static', filename='app9.jpg') }}") no-repeat center center/cover; /* Background image */
+      color: #FFFFFF; /* Text color */
+      display: flex; /* Flex layout to center container */
+      justify-content: center; /* Center horizontally */
+      padding: 20px 0; /* Vertical padding */
     }
+
+    /* MAIN CONTAINER */
     .container {
-      background: #121212;
-      padding: 20px 25px;
-      border-radius: 12px;
-      width: 750px;
-      box-shadow: 0 0 20px #00D4FF;
+      background: #121212; /* Container background color */
+      padding: 20px 25px; /* Padding inside container */
+      border-radius: 12px; /* Rounded corners */
+      width: 750px; /* Fixed width */
+      box-shadow: 0 0 20px #00D4FF; /* Neon glow shadow */
     }
+
+    /* PAGE TITLE */
     h1#worker-info-title {
-      font-family: "Times New Roman", Times, serif;
-      font-size: 28px;
-      font-weight: bold;
-      color: #00D4FF;
-      text-align: center;
-      margin-bottom: 25px;
+      font-family: "Times New Roman", Times, serif; /* Title font */
+      font-size: 28px; /* Title size */
+      font-weight: bold; /* Bold title */
+      color: #00D4FF; /* Title color */
+      text-align: center; /* Center align */
+      margin-bottom: 25px; /* Space below title */
     }
+
+    /* SECTION LABELS */
     label.section-label {
-      display: block;
-      font-family: "Times New Roman", Times, serif;
-      font-weight: bold;
-      font-size: 18px;
-      color: #00D4FF;
-      margin-top: 15px;
-      margin-bottom: 8px;
+      display: block; /* Block display */
+      font-family: "Times New Roman", Times, serif; /* Font */
+      font-weight: bold; /* Bold label */
+      font-size: 18px; /* Font size */
+      color: #00D4FF; /* Label color */
+      margin-top: 15px; /* Space above */
+      margin-bottom: 8px; /* Space below */
     }
+
+    /* FORM INPUTS AND SELECTS */
     select, input[type="text"], input[type="number"], textarea {
-      width: 100%;
-      padding: 7px 8px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #00D4FF;
-      background: #2C2C2C;
-      color: #FFFFFF;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      outline: none;
+      width: 100%; /* Full width */
+      padding: 7px 8px; /* Padding */
+      margin-bottom: 10px; /* Space below input */
+      border-radius: 6px; /* Rounded edges */
+      border: 1px solid #00D4FF; /* Border color */
+      background: #2C2C2C; /* Background color */
+      color: #FFFFFF; /* Text color */
+      font-family: Arial, sans-serif; /* Font */
+      font-size: 14px; /* Font size */
+      outline: none; /* Remove outline */
     }
+
+    /* CHECKBOX AND RADIO GROUPS */
     .checkbox-columns, .radio-group, .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
+      display: flex; /* Flex layout */
+      flex-wrap: wrap; /* Wrap items */
+      gap: 10px; /* Gap between items */
+      margin-bottom: 10px; /* Space below group */
     }
+
     .checkbox-columns label,
     .radio-group label,
     .checkbox-group label {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      color: #FFFFFF;
+      font-family: Arial, sans-serif; /* Font */
+      font-size: 14px; /* Font size */
+      color: #FFFFFF; /* Text color */
     }
+
+    /* SUBMIT BUTTON */
     button {
-      background: #00D4FF;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      width: 100%;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.3s;
-      margin-top: 20px;
+      background: #00D4FF; /* Button color */
+      color: #000; /* Text color */
+      font-weight: bold; /* Bold text */
+      border: none; /* Remove border */
+      border-radius: 8px; /* Rounded corners */
+      padding: 12px; /* Padding */
+      width: 100%; /* Full width */
+      cursor: pointer; /* Pointer on hover */
+      font-size: 16px; /* Font size */
+      transition: 0.3s; /* Smooth transition */
+      margin-top: 20px; /* Space above button */
     }
+
     button:hover {
-      background: #00FF85;
-      transform: scale(1.05);
+      background: #00FF85; /* Hover color */
+      transform: scale(1.05); /* Slight zoom on hover */
     }
+
+    /* OTHER WORK INPUT FIELD */
     .other-input {
-      display: none;
-      margin-left: 5px;
-      padding: 5px;
-      border-radius: 4px;
-      border: 1px solid #00D4FF;
-      background: #2C2C2C;
-      color: #FFFFFF;
-      font-size: 13px;
-      margin-top: 5px;
+      display: none; /* Hidden by default */
+      margin-left: 5px; /* Left margin */
+      padding: 5px; /* Padding */
+      border-radius: 4px; /* Rounded edges */
+      border: 1px solid #00D4FF; /* Border color */
+      background: #2C2C2C; /* Background color */
+      color: #FFFFFF; /* Text color */
+      font-size: 13px; /* Font size */
+      margin-top: 5px; /* Space above input */
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="worker-info-title">Worker Info:</h1>
+  <div class="container"> <!-- Main form container -->
+    <h1 id="worker-info-title">Worker Info:</h1> <!-- Section title -->
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages(with_categories=true) %} <!-- Flask flash messages block -->
       {% if messages %}
-        <ul>
+        <ul> <!-- Flash messages list -->
           {% for category, msg in messages %}
-            <li style="color: {{ 'red' if category=='error' else 'green' }}">{{ msg }}</li>
+            <li style="color: {{ 'red' if category=='error' else 'green' }}">{{ msg }}</li> <!-- Error in red, success in green -->
           {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('worker_page') }}">
-      
+    <form method="POST" action="{{ url_for('worker_page') }}"> <!-- Form submission -->
+
       <!-- Gender -->
       <label class="section-label">Gender</label>
       <div class="radio-group">
@@ -130,7 +147,7 @@
       <label class="section-label" for="location">Location</label>
       <select name="location" id="location" required>
         <option value="">--Select Location--</option>
-        {% for loc in [
+        {% for loc in [  
           "Navanagar, Bagalkot, Karnataka","Vidyagiri, Bagalkot, Karnataka",
           "Neelanagar, Bagalkot, Karnataka","Sundar Nagar, Bagalkot, Karnataka",
           "Shivarampur, Bagalkot, Karnataka","Ramnagar, Bagalkot, Karnataka",
@@ -206,15 +223,16 @@
         <label><input type="checkbox" name="languages_known" value="Marathi"> Marathi</label>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit">Submit</button> <!-- Submit button -->
     </form>
   </div>
 
+  <!-- JS to toggle 'Other Work' input field -->
   <script>
-    const workCheckbox = document.getElementById('work-other-checkbox');
-    const workOtherInput = document.getElementById('work-other-text');
+    const workCheckbox = document.getElementById('work-other-checkbox'); // Checkbox for 'Other'
+    const workOtherInput = document.getElementById('work-other-text'); // Input for 'Other' work
     workCheckbox.addEventListener('change', () => {
-      workOtherInput.style.display = workCheckbox.checked ? 'inline-block' : 'none';
+      workOtherInput.style.display = workCheckbox.checked ? 'inline-block' : 'none'; // Show/hide input based on checkbox
     });
   </script>
 </body>

@@ -2,406 +2,1361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VETANA — Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VETANA — Home</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;500;700&display=swap"
+        rel="stylesheet"
+    >
 
-  <!-- Font Awesome for icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        rel="stylesheet"
+    >
 
-  <style>
-    :root {
-      --bg:#121212;
-      --accent-cyan:#00D4FF;
-      --gunmetal:#2C2C2C;
-      --electric:#00FF85;
-      --text:#E6EEF3;
-      --muted:#9AA6B2;
-    }
-
-    /* Global Styles */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background:url("{{ url_for('static', filename='app6.jpg') }}") no-repeat center/cover;
-      color:var(--text);
-      overflow-x:hidden;
-      perspective:1200px;
-    }
-
-    .page-overlay{
-      background:linear-gradient(180deg, rgba(18,18,18,0.85), rgba(18,18,18,0.95));
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
-
-    /* NAVBAR */
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 28px;
-      background:rgba(0,0,0,0.25);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid rgba(255,255,255,0.04);
-      position:sticky;
-      top:0;
-      z-index:80;
-    }
-
-    .nav-left{
-      display:flex;
-      align-items:center;
-    }
-
-    .logo-rect img{
-      height:48px;
-      width:auto;
-      border-radius:6px;
-      box-shadow:0 6px 16px rgba(0,212,255,0.15);
-      transform:translateZ(10px);
-    }
-
-    .nav-right{
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-
-    input.search{
-      width:300px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:rgba(255,255,255,0.03);
-      color:var(--text);
-      font-size:14px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
-    }
-    input.search:focus{box-shadow:0 10px 30px rgba(0,212,255,0.12)}
-
-    .btn-sign{
-      background:linear-gradient(180deg,var(--accent-cyan),#00bfff);
-      color:var(--bg);
-      padding:10px 18px;
-      border-radius:12px;
-      border:none;
-      cursor:pointer;
-      font-weight:700;
-      box-shadow:0 10px 30px rgba(0,212,255,0.12);
-      transition:transform .2s ease, box-shadow .2s ease;
-    }
-    .btn-sign:hover{
-      transform:translateY(-4px) scale(1.03);
-      box-shadow:0 16px 40px rgba(0,212,255,0.18);
-    }
-
-    /* Profile Emoji Style */
-    .profile-emoji {
-      font-size: 26px;
-      border: 2px solid var(--accent-cyan);
-      border-radius: 50%;
-      padding: 6px 10px;
-      background: rgba(255,255,255,0.05);
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 212, 255, 0.3);
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-    .profile-emoji:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-    }
-
-    /* Logout Link Style */
-    .dropdown-content a {
-      display:block;
-      padding:10px;
-      color:white;
-      text-decoration:none;
-      font-family:"Orbitron",sans-serif;
-      font-weight:700;
-      letter-spacing:1px;
-      font-size:15px;
-      text-align:center;
-      background: linear-gradient(145deg, #00D4FF, #00FF85);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 1px 1px 6px rgba(0,212,255,0.4);
-      transition: transform 0.2s ease;
-    }
-    .dropdown-content a:hover {
-      transform: scale(1.05);
-    }
-
-    /* HERO SECTION */
-    .hero{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:50px 20px;
-      text-align:center;
-    }
-
-    .main-tag{
-      font-family:"Orbitron",sans-serif;
-      font-weight:700;
-      font-size:48px;
-      color:transparent;
-      background:linear-gradient(90deg,var(--accent-cyan),var(--electric),#00d4ff);
-      -webkit-background-clip:text;
-      background-clip:text;
-      letter-spacing:1px;
-      animation:shimmer 3.6s linear infinite;
-      text-shadow:0 2px 8px rgba(0,212,255,0.15);
-      transform:translateZ(30px) rotateX(1deg);
-    }
-    @keyframes shimmer{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
-
-    .sub-tag{
-      font-family:"Poppins",sans-serif;
-      font-size:20px;
-      font-weight:600;
-      color:var(--electric);
-      animation:floaty 4s ease-in-out infinite;
-    }
-    @keyframes floaty{
-      0%{transform:translateY(0)}
-      50%{transform:translateY(-8px)}
-      100%{transform:translateY(0)}
-    }
-
-    .job-list{
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:16px;
-    }
-    .job-item{
-      padding:10px 16px;
-      border-radius:12px;
-      background:rgba(255,255,255,0.03);
-      color:var(--accent-cyan);
-      font-family:"Orbitron",sans-serif;
-      font-weight:700;
-      transition:transform .2s,box-shadow .2s;
-      box-shadow:0 4px 10px rgba(0,0,0,0.4);
-    }
-    .job-item:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 10px 30px rgba(0,212,255,0.2)}
-
-    /* CAROUSEL */
-    .carousel-wrap{
-      width:min(880px,94%);
-      margin:28px auto;
-      position:relative;
-      border-radius:14px;
-      overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,0.6);
-    }
-    .carousel-img{
-      width:100%;
-      height:420px;
-      object-fit:cover;
-      transition:opacity 1s ease,transform .6s ease;
-    }
-    .arrow{
-      position:absolute;top:50%;transform:translateY(-50%);
-      background:rgba(0,0,0,0.5);border-radius:50%;
-      width:50px;height:50px;display:flex;align-items:center;justify-content:center;
-      color:var(--accent-cyan);cursor:pointer;opacity:0;transition:opacity .2s;
-    }
-    .carousel-wrap:hover .arrow{opacity:1}
-    .arrow-left{left:18px}
-    .arrow-right{right:18px}
-
-    /* ABOUT SECTION */
-    .about{
-      width:min(900px,94%);
-      margin:40px auto;
-      padding:22px;
-      border-radius:12px;
-      background:rgba(44,44,44,0.4);
-      border:1px solid rgba(0,212,255,0.04);
-      text-align:center;
-      transition:box-shadow .3s ease;
-    }
-    .about:hover{box-shadow:0 10px 40px rgba(0,212,255,0.15)}
-    .about h3{color:var(--accent-cyan);font-family:"Orbitron",sans-serif}
-
-    /* CONTACT SECTION */
-    .contact-section{
-      text-align:center;
-      margin:30px auto;
-    }
-    .contact-section h3{
-      color:var(--accent-cyan);
-      font-family:"Orbitron",sans-serif;
-    }
-    .contact-icons{
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      margin-top:10px;
-    }
-    .contact-icons a{
-      color:var(--accent-cyan);
-      font-size:28px;
-      transition:transform .2s,color .2s;
-    }
-    .contact-icons a:hover{transform:translateY(-4px);color:var(--electric)}
-
-    .page-footer{text-align:center;padding:18px;color:rgba(255,255,255,0.6);font-size:13px;margin-top:30px}
-
-    @media(max-width:560px){
-      input.search{display:none}
-      .carousel-img{height:260px}
-    }
-  </style>
-</head>
-<body>
-  <div class="page-overlay">
-<header class="nav">
-  <div class="nav-left">
-    <div class="logo-rect">
-      <img src="{{ url_for('static', filename='logo2.jpg') }}" alt="logo">
-    </div>
-  </div>
-  <div class="nav-right">
-    <input class="search" type="search" placeholder="🔎 Search jobs or skills (e.g. plumber)">
-
-    {% if session.get('user_id') %}
-      <!-- Profile emoji with dropdown -->
-      <div class="profile-dropdown" style="position:relative; display:inline-block;">
-        <span class="profile-emoji">👤</span>
-        <div class="dropdown-content" style="display:none; position:absolute; right:0; background:rgba(18,18,18,0.95); min-width:120px; box-shadow:0 4px 8px rgba(0,0,0,0.2); border-radius:8px; z-index:100;">
-          <a href="{{ url_for('logout') }}">Logout</a>
-        </div>
-      </div>
-
-      <script>
-        const profile = document.querySelector('.profile-dropdown');
-        const dropdown = profile.querySelector('.dropdown-content');
-        profile.addEventListener('click', () => {
-          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-        window.addEventListener('click', function(e) {
-          if (!profile.contains(e.target)) {
-            dropdown.style.display = 'none';
-          }
-        });
-      </script>
-    {% else %}
-      <button class="btn-sign" onclick="window.location.href='{{ url_for('signin') }}'">Sign Up</button>
-    {% endif %}
-  </div>
-</header>
-
-<!-- REST OF YOUR PAGE STAYS SAME -->
-
-
-    <!-- HERO SECTION -->
-    <main class="hero">
-      <div class="main-tag" style="line-height:1.6;">WORTH BEYOND PAY</div>
-      <div class="sub-tag" style="color:var(--muted);margin-top:8px;line-height:1.8;">Connecting work & trust — instantly</div>
-      <div class="sub-tag" style="margin-top:18px;font-size:18px;color:var(--accent-cyan);font-weight:700;line-height:1.8;">Job Deck</div>
-
-      <div class="job-list" style="margin-top:22px;">
-        <div class="job-item">Plumber</div>
-        <div class="job-item">Maid</div>
-        <div class="job-item">Painter</div>
-        <div class="job-item">Carpenter</div>
-      </div>
-    </main>
-
-    <!-- Carousel -->
-    <div class="carousel-wrap" id="carouselWrap">
-      <img id="carouselImage" class="carousel-img" src="{{ url_for('static', filename='app5.jpg') }}">
-      <div class="arrow arrow-left" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></div>
-      <div class="arrow arrow-right" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></div>
-    </div>
-
-    <!-- About -->
-    <article class="about">
-      <h3>About Us</h3>
-      <p>
-        We built Vetana with a simple vision – to give daily wage workers better opportunities
-        and to make hiring stress-free for employers. Whether you’re looking for work or need trusted help,
-        Vetana connects you instantly. Together, we’re building a platform that values hard work, trust, and growth.
-      </p>
-    </article>
-
-    <!-- Contact Section -->
-    <section class="contact-section">
-      <h3>Contact Us</h3>
-      <div class="contact-icons">
-        <a href="mailto:vetana@example.com"><i class="fa-regular fa-envelope"></i></a>
-        <a href="https://instagram.com/vetana" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://linkedin.com/in/vetana" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://facebook.com/vetana" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-      </div>
-    </section>
-
-    <div class="page-footer">© <strong>VETANA</strong> — connecting people & work</div>
-  </div>
-
-  <script>
-    // Profile logout toggle
-    const profileIcon = document.getElementById('profileIcon');
-    const logoutMenu = document.getElementById('logoutMenu');
-
-    if(profileIcon) {
-      profileIcon.addEventListener('click', () => {
-        logoutMenu.style.display = logoutMenu.style.display === 'block' ? 'none' : 'block';
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!profileIcon.contains(e.target) && !logoutMenu.contains(e.target)) {
-          logoutMenu.style.display = 'none';
+    <style>
+        :root {
+            --bg: #121212;
+            --accent-cyan: #00D4FF;
+            --gunmetal: #2C2C2C;
+            --electric: #00FF85;
+            --text: #E6EEF3;
+            --muted: #9AA6B2;
         }
-      });
+
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: url("{{ url_for('static', filename='app6.jpg') }}") no-repeat center/cover;
+            color: var(--text);
+            overflow-x: hidden;
+            perspective: 1200px;
+        }
+
+        .page-overlay {
+            background: linear-gradient(180deg, rgba(18,18,18,0.85), rgba(18,18,18,0.95));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 80;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-rect img {
+            height: 48px;
+            width: auto;
+            border-radius: 6px;
+            box-shadow: 0 6px 16px rgba(0,212,255,0.15);
+            transform: translateZ(10px);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* search wrapper so we can show bell beside it nicely */
+        .search-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input.search {
+            width: 300px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            color: var(--text);
+            font-size: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        }
+
+        input.search:focus {
+            box-shadow: 0 10px 30px rgba(0,212,255,0.12);
+        }
+
+        /* bell icon */
+        .notif-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--accent-cyan);
+            padding: 6px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .notif-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff4e4e;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .btn-sign {
+            background: linear-gradient(180deg, var(--accent-cyan), #00bfff);
+            color: var(--bg);
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.12);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .btn-sign:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,212,255,0.18);
+        }
+
+        /* Profile Emoji Style */
+        .profile-emoji {
+            font-size: 26px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 212, 255, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-emoji:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        /* dropdown link style (profile menu) */
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-family: "Orbitron", sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 15px;
+            text-align: center;
+            background: linear-gradient(145deg, #00D4FF, #00FF85);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 6px rgba(0,212,255,0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .main-tag {
+            font-family: "Orbitron", sans-serif;
+            font-weight: 700;
+            font-size: 48px;
+            color: transparent;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--electric), #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            letter-spacing: 1px;
+            animation: shimmer 3.6s linear infinite;
+            text-shadow: 0 2px 8px rgba(0,212,255,0.15);
+            transform: translateZ(30px) rotateX(1deg);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sub-tag {
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--electric);
+            animation: floaty 4s ease-in-out infinite;
+        }
+
+        @keyframes floaty {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0); }
+        }
+
+        .job-list {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .job-item {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            color: var(--accent-cyan);
+            font-family: "Orbitron", sans-serif;
+            font-weight: 700;
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .job-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,212,255,0.2);
+        }
+
+        /* CAROUSEL */
+        .carousel-wrap {
+            width: min(880px, 94%);
+            margin: 28px auto;
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            transition: opacity 1s ease, transform .6s ease;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .carousel-wrap:hover .arrow {
+            opacity: 1;
+        }
+
+        .arrow-left {
+            left: 18px;
+        }
+
+        .arrow-right {
+            right: 18px;
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            width: min(900px, 94%);
+            margin: 40px auto;
+            padding: 22px;
+            border-radius: 12px;
+            background: rgba(44,44,44,0.4);
+            border: 1px solid rgba(0,212,255,0.04);
+            text-align: center;
+            transition: box-shadow .3s ease;
+        }
+
+        .about:hover {
+            box-shadow: 0 10px 40px rgba(0,212,255,0.15);
+        }
+
+        .about h3 {
+            color: var(--accent-cyan);
+            font-family: "Orbitron", sans-serif;
+        }
+
+        /* CONTACT SECTION */
+        .contact-section {
+            text-align: center;
+            margin: 30px auto;
+        }
+
+        .contact-section h3 {
+            color: var(--accent-cyan);
+            font-family: "Orbitron", sans-serif;
+        }
+
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .contact-icons a {
+            color: var(--accent-cyan);
+            font-size: 28px;
+            transition: transform .2s, color .2s;
+        }
+
+        .contact-icons a:hover {
+            transform: translateY(-4px);
+            color: var(--electric);
+        }
+
+        .page-footer {
+            text-align: center;
+            padding: 18px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        /* MODAL / POPUP STYLES */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .modal {
+            width: min(680px, 95%);
+            background: #0f0f0f;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            color: var(--text);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal .modal-header h3 {
+            margin: 0;
+            color: var(--accent-cyan);
+            font-family: Orbitron;
+        }
+
+        .modal .list-item {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ghost {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.06);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-green {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--electric));
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        @media (max-width: 560px) {
+            input.search {
+                display: none;
+            }
+            .carousel-img {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-overlay">
+
+        <header class="nav">
+            <div class="nav-left">
+                <div class="logo-rect">
+                    <img src="{{ url_for('static', filename='logo2.jpg') }}" alt="logo">
+                </div>
+            </div>
+
+            <!-- Right: search + bell + profile/sign -->
+            <div class="nav-right">
+                <div class="search-wrap">
+                    <input id="searchInput" class="search" type="search"
+                           placeholder="🔎 Search jobs or skills (e.g. plumber)">
+
+                    <!-- Notification bell (shows only when logged in) -->
+                    {% if session.get('user_id') %}
+                    <div id="notifBell" class="notif-bell" title="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span id="notifCount" class="notif-count" style="display:none">0</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if session.get('user_id') %}
+                <!-- Profile emoji with dropdown -->
+                <div class="profile-dropdown" style="position:relative; display:inline-block;">
+                    <span class="profile-emoji">👤</span>
+
+                    <div class="dropdown-content"
+                         style="display:none; position:absolute; right:0;
+                                background:rgba(18,18,18,0.95); min-width:120px;
+                                box-shadow:0 4px 8px rgba(0,0,0,0.2);
+                                border-radius:8px; z-index:100;">
+                        <a href="{{ url_for('profile') }}">Profile</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    const profile = document.querySelector('.profile-dropdown');
+                    const dropdown = profile.querySelector('.dropdown-content');
+
+                    profile.addEventListener('click', () => {
+                        dropdown.style.display =
+                            dropdown.style.display === 'block' ? 'none' : 'block';
+                    });
+
+                    window.addEventListener('click', function (e) {
+                        if (!profile.contains(e.target)) {
+                            dropdown.style.display = 'none';
+                        }
+                    });
+                </script>
+
+                {% else %}
+                <button class="btn-sign" onclick="window.location.href='{{ url_for('signin') }}'">
+                    Sign Up
+                </button>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <main class="hero">
+            <div class="main-tag" style="line-height:1.6;">
+                WORTH BEYOND PAY
+            </div>
+
+            <div class="sub-tag"
+                 style="color:var(--muted); margin-top:8px; line-height:1.8;">
+                Connecting work & trust — instantly
+            </div>
+
+            <div class="sub-tag"
+                 style="margin-top:18px; font-size:18px; color:var(--accent-cyan);
+                        font-weight:700; line-height:1.8;">
+                Job Deck
+            </div>
+
+            <div class="job-list" style="margin-top:22px;">
+                <div class="job-item">Plumber</div>
+                <div class="job-item">Maid</div>
+                <div class="job-item">Painter</div>
+                <div class="job-item">Carpenter</div>
+            </div>
+        </main>
+
+        <!-- CAROUSEL -->
+        <div class="carousel-wrap" id="carouselWrap">
+            <img id="carouselImage" class="carousel-img"
+                 src="{{ url_for('static', filename='app5.jpg') }}">
+
+            <div class="arrow arrow-left" id="prevBtn">
+                <i class="fa-solid fa-chevron-left"></i>
+            </div>
+
+            <div class="arrow arrow-right" id="nextBtn">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- ABOUT -->
+        <article class="about">
+            <h3>About Us</h3>
+            <p>
+                We built Vetana with a simple vision – to give daily wage workers better
+                opportunities and to make hiring stress-free for employers. Whether
+                you’re looking for work or need trusted help, Vetana connects you
+                instantly. Together, we’re building a platform that values hard work,
+                trust, and growth.
+            </p>
+        </article>
+
+        <!-- CONTACT -->
+        <section class="contact-section">
+            <h3>Contact Us</h3>
+
+            <div class="contact-icons">
+                <a href="mailto:vetana@example.com">
+                    <i class="fa-regular fa-envelope"></i>
+                </a>
+                <a href="https://instagram.com/vetana" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://linkedin.com/in/vetana" target="_blank">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+                <a href="https://facebook.com/vetana" target="_blank">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="page-footer">
+            © <strong>VETANA</strong> — connecting people & work
+        </div>
+
+        <!-- -------------- MODALS -------------- -->
+
+        <!-- Search results modal -->
+        <div id="searchModal" class="modal-overlay">
+            <div class="modal" role="dialog" aria-modal="true">
+                <div class="modal-header">
+                    <h3>Search results</h3>
+                    <button class="btn-ghost" onclick="closeModal('searchModal')">Close</button>
+                </div>
+                <div id="searchResults" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+ <!-- Worker profile modal -->
+<div id="profileModal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="profileModalTitle">Worker profile</h3>
+            <button class="btn-ghost" onclick="closeModal('profileModal')">Close</button>
+        </div>
+
+        <!-- Worker details will be inserted here -->
+        <div id="profileContent" style="margin-top:12px;"></div>
+
+        <!-- STATIC or LIVE worker map -->
+      <div id="workerMap"
+     style="width:100%; height:250px; border-radius:10px; margin-top:12px;">
+</div>
+
+
+        <!-- Hidden worker & booking values -->
+        <input type="hidden" id="workerStaticLat">
+        <input type="hidden" id="workerStaticLng">
+
+        <input type="hidden" id="bookingStatus">
+        <input type="hidden" id="bookingUserLat">
+        <input type="hidden" id="bookingUserLng">
+        <input type="hidden" id="bookingWorkerId">
+
+    </div>
+</div>
+
+<!-- User profile modal -->
+<div id="userProfileModal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="userProfileTitle">User Profile</h3>
+            <button class="btn-ghost" onclick="closeModal('userProfileModal')">Close</button>
+        </div>
+
+        <!-- User details will be inserted here -->
+        <div id="userProfileContent" style="margin-top:12px;"></div>
+
+        <!-- STATIC or LIVE user map -->
+        <div id="userMap"
+             style="width:100%; height:250px; border-radius:10px; margin-top:12px;">
+        </div>
+
+        <!-- Hidden values for static user location & worker live data -->
+        <input type="hidden" id="userStaticLat">
+        <input type="hidden" id="userStaticLng">
+
+        <input type="hidden" id="bookingStatusUserSide">
+        <input type="hidden" id="bookingWorkerLat">
+        <input type="hidden" id="bookingWorkerLng">
+        <input type="hidden" id="bookingWorkerIdUserSide">
+
+    </div>
+</div>
+
+
+        <!-- Notifications modal -->
+        <div id="notifModal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Notifications</h3>
+                    <button class="btn-ghost" onclick="closeModal('notifModal')">Close</button>
+                </div>
+
+                <div id="notifContent" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+    </div> <!-- page-overlay -->
+
+    <script>
+        /* Carousel (kept as-is) */
+        (function () {
+            const images = [
+                "{{ url_for('static', filename='app2.jpg') }}",
+                "{{ url_for('static', filename='app3.jpg') }}",
+                "{{ url_for('static', filename='app1.jpg') }}",
+                "{{ url_for('static', filename='app4.jpg') }}",
+                "{{ url_for('static', filename='app5.jpg') }}",
+                "{{ url_for('static', filename='app6.jpg') }}"
+            ];
+
+            let currentIndex = 4;
+
+            const imgEl = document.getElementById('carouselImage');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+
+            function show(i) {
+                imgEl.style.opacity = 0;
+                setTimeout(() => {
+                    imgEl.src = images[i];
+                    imgEl.style.opacity = 1;
+                }, 300);
+            }
+
+            function next() {
+                currentIndex = (currentIndex + 1) % images.length;
+                show(currentIndex);
+            }
+
+            function prev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                show(currentIndex);
+            }
+
+            nextBtn.addEventListener('click', next);
+            prevBtn.addEventListener('click', prev);
+
+            setInterval(next, 4000);
+        })();
+
+
+        /* Modal helpers */
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+
+        /* Search behaviour */
+        const searchInput = document.getElementById('searchInput');
+
+        searchInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        function doSearch() {
+            const q = searchInput.value.trim();
+            if (!q) return;
+
+            fetch(`/api/search?q=${encodeURIComponent(q)}`)
+                .then(r => r.json())
+                .then(data => {
+                    const cont = document.getElementById('searchResults');
+                    cont.innerHTML = '';
+
+                    if (!data.workers || data.workers.length === 0) {
+                        cont.innerHTML = '<div class="list-item">No matches found</div>';
+                    } else {
+                        data.workers.forEach(w => {
+                            const item = document.createElement('div');
+                            item.className = 'list-item';
+
+                            item.innerHTML = `
+                                <div style="flex:1; cursor:pointer;" onclick="openProfile(${w.worker_id})">
+                                    <div style="font-weight:700">${w.username}</div>
+                                    <div style="font-size:13px;color:var(--muted)">${w.type_of_work}</div>
+                                </div>
+                                <div>
+                                    ${ showSendButtonHTML(w.worker_id) }
+                                </div>
+                            `;
+
+                            cont.appendChild(item);
+                        });
+                    }
+
+                    openModal('searchModal');
+                });
+        }
+
+        /* Role info from Flask */
+        const isLoggedIn = {{ 'true' if session.get('user_id') else 'false' }};
+        const currentRole = "{{ session.get('role') or '' }}";
+
+        function showSendButtonHTML(worker_id) {
+            if (!isLoggedIn) return '';
+            if (currentRole !== 'user') return '';
+            return `<button class="btn-green" onclick="sendRequest(${worker_id}, this)">Send Request</button>`;
+        }
+
+        /* Open worker profile in modal */
+        /* Open worker profile in modal (USER → sees WORKER) */
+/* USER → opens WORKER profile popup */
+/* USER → opens WORKER profile popup */
+function openProfile(worker_id) {
+    fetch(`/api/worker_profile/${worker_id}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                alert("Profile not found");
+                return;
+            }
+
+            // ⭐ FIX: Set correct popup title
+            document.getElementById("profileModalTitle").innerText = "Worker Profile";
+
+            const p = document.getElementById('profileContent');
+
+            p.innerHTML = `
+                <div style="display:flex;gap:12px;align-items:center">
+                    <div style="
+                        width:64px;
+                        height:64px;
+                        border-radius:50%;
+                        background:linear-gradient(145deg,var(--accent-cyan),var(--electric));
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:700;
+                        font-family:Orbitron;
+                    ">
+                        ${(data.username || '')[0] || ''}
+                    </div>
+
+                    <div>
+                        <div style="font-weight:800;font-size:18px">${data.username}</div>
+                        <div style="font-size:13px;color:var(--muted)">${data.fullname || ''}</div>
+                        <div style="margin-top:6px;font-size:13px">
+                            Type: ${data.type_of_work || '-'}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;line-height:1.4">
+                    <div><strong>Location:</strong> ${data.location || '-'}</div>
+                    <div><strong>Age:</strong> ${data.age || '-'}</div>
+                    <div><strong>Gender:</strong> ${data.gender || '-'}</div>
+                    <div><strong>Wage:</strong> ${data.expected_pay || '-'}</div>
+                    <div><strong>Languages:</strong> ${data.languages_known || '-'}</div>
+
+                    <div style="margin-top:10px">
+                        <strong>Contact:</strong>
+                        ${data.contact ? `<a href="tel:${data.contact}">${data.contact}</a>` : '-'}
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;text-align:right">
+                    ${ showSendButtonHTML(data.worker_id) }
+                    <button class="btn-ghost" onclick="closeModal('profileModal')">Close</button>
+                </div>
+            `;
+
+            /* ⭐ Save static worker coordinates for Google Map */
+            document.getElementById("workerStaticLat").value = data.lat;
+            document.getElementById("workerStaticLng").value = data.lng;
+
+            /* Open worker popup */
+            openModal('profileModal');
+
+            /* ⭐ Load STATIC worker map */
+            setTimeout(loadStaticWorkerMap, 300);
+
+            /* ⭐ AUTO START LIVE TRACKING IF ACCEPTED */
+            if (window.trackingWorkerId === data.worker_id) {
+                console.log("Live tracking active for worker:", worker_id);
+                startUserLiveTracking(worker_id);
+            }
+        });
+}
+
+
+    function openUserPopup(user_id) {
+    fetch(`/api/user_profile/${user_id}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                alert("User not found");
+                return;
+            }
+
+            // ⭐ FIX: Set correct popup title
+            document.getElementById("userProfileTitle").innerText = "User Profile";
+
+            const p = document.getElementById('userProfileContent');
+
+            p.innerHTML = `
+                <div style="display:flex;gap:12px;align-items:center">
+                    <div style="
+                        width:64px;
+                        height:64px;
+                        border-radius:50%;
+                        background:linear-gradient(145deg,var(--accent-cyan),var(--electric));
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:700;
+                        font-family:Orbitron;
+                    ">
+                        ${(data.username || '')[0] || ''}
+                    </div>
+
+                    <div>
+                        <div style="font-weight:800;font-size:18px">${data.username}</div>
+                        <div style="font-size:13px;color:var(--muted)">${data.fullname || ''}</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;line-height:1.4">
+                    <div><strong>Location:</strong> ${data.location || '-'}</div>
+                    <div><strong>Service Required:</strong> ${data.job_requirements || '-'}</div>
+                    <div><strong>Special Requirements:</strong> ${data.special_requirements || '-'}</div>
+                    <div><strong>Contact:</strong> ${data.contact || '-'}</div>
+                </div>
+
+                <div style="margin-top:12px;text-align:right">
+                    <button class="btn-ghost" onclick="closeModal('userProfileModal')">Close</button>
+                </div>
+            `;
+
+            /* ⭐ SAVE STATIC USER LAT/LNG */
+            document.getElementById("userStaticLat").value = data.lat;
+            document.getElementById("userStaticLng").value = data.lng;
+
+            /* ⭐ OPEN USER POPUP */
+            openModal('userProfileModal');
+
+            /* ⭐ LOAD STATIC USER MAP */
+            setTimeout(loadStaticUserMap, 300);
+        });
+}
+
+
+/* WORKER → opens USER profile popup */
+function openUserProfile(user_id) {
+    fetch(`/api/user_profile/${user_id}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                alert("User profile not found");
+                return;
+            }
+
+            const p = document.getElementById('userProfileContent');
+
+            p.innerHTML = `
+                <div style="font-weight:800; font-size:18px">${data.username}</div>
+                <div style="margin-top:6px; line-height:1.6">
+                    <strong>Full Name:</strong> ${data.fullname || '-'}<br>
+                    <strong>Contact:</strong> ${data.contact || '-'}<br>
+                    <strong>Location:</strong> ${data.location || '-'}<br>
+                    <strong>Service Required:</strong> ${data.job_requirements || '-'}<br>
+                    <strong>Special Requirements:</strong> ${data.special_requirements || '-'}<br>
+                    <strong>Date Needed:</strong> ${data.date_needed || '-'}<br>
+                    <strong>Duration:</strong> ${data.duration || '-'}<br>
+                    <strong>Start Time:</strong> ${data.start_time || '-'}<br>
+                    <strong>End Time:</strong> ${data.end_time || '-'}<br>
+                </div>
+            `;
+
+            /* ⭐ STEP 5: Set static USER lat/lng */
+            document.getElementById("userStaticLat").value = data.lat;
+            document.getElementById("userStaticLng").value = data.lng;
+
+            /* Open modal */
+            openModal('userProfileModal');
+
+            /* ⭐ STEP 5: Load STATIC user map */
+            setTimeout(loadStaticUserMap, 300);
+        });
+}
+
+
+        /* Send request (AJAX) */
+        function sendRequest(worker_id, btnEl) {
+            if (!isLoggedIn) {
+                window.location.href = "{{ url_for('signin') }}";
+                return;
+            }
+
+            if (currentRole !== 'user') {
+                alert("Only signed-in users can send requests.");
+                return;
+            }
+
+            btnEl.disabled = true;
+
+            fetch('/api/send_request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ worker_id: worker_id })
+            })
+                .then(r => r.json())
+                .then(resp => {
+                    if (resp.error) {
+                        alert(resp.error || 'Error');
+                        btnEl.disabled = false;
+                        return;
+                    }
+
+                    btnEl.innerText = resp.message || 'Sent';
+                    btnEl.classList.remove('btn-green');
+                    btnEl.classList.add('btn-ghost');
+
+                    updateNotifCount();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Network error');
+                    btnEl.disabled = false;
+                });
+        }
+
+        /* Notification bell behavior */
+        const bell = document.getElementById('notifBell');
+
+        if (bell) {
+            bell.addEventListener('click', () => {
+                fetch('/api/notifications')
+                    .then(r => r.json())
+                    .then(renderNotifications);
+
+                openModal('notifModal');
+            });
+
+            updateNotifCount();
+        }
+
+        /* ===== NOTIFICATION LOGIC (simple, matches backend) ===== */
+
+        function updateNotifCount() {
+            fetch('/api/notifications')
+                .then(r => {
+                    if (r.status === 401) {
+                        document.getElementById('notifCount').style.display = 'none';
+                        return {};
+                    }
+                    return r.json();
+                })
+                .then(data => {
+                    const badge = document.getElementById('notifCount');
+
+                    if (!data || !data.notifications) {
+                        badge.style.display = 'none';
+                        return;
+                    }
+
+                    const count = data.notifications.length;
+
+                    if (count > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.innerText = count;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(() => {});
+        }
+
+function renderNotifications(data) {
+    const cont = document.getElementById('notifContent');
+    cont.innerHTML = '';
+
+    if (!data || !data.notifications || data.notifications.length === 0) {
+        cont.innerHTML = '<div class="list-item">No notifications.</div>';
+        return;
     }
 
-    // Carousel JS
-    (function(){
-      const images=[
-        "{{ url_for('static', filename='app2.jpg') }}",
-        "{{ url_for('static', filename='app3.jpg') }}",
-        "{{ url_for('static', filename='app1.jpg') }}",
-        "{{ url_for('static', filename='app4.jpg') }}",
-        "{{ url_for('static', filename='app5.jpg') }}",
-        "{{ url_for('static', filename='app6.jpg') }}"
-      ];
-      let currentIndex=4;
-      const imgEl=document.getElementById('carouselImage');
-      const nextBtn=document.getElementById('nextBtn');
-      const prevBtn=document.getElementById('prevBtn');
+    data.notifications.forEach(n => {
+        const box = document.createElement('div');
+        box.className = "list-item";
 
-      function show(i){
-        imgEl.style.opacity=0;
-        setTimeout(()=>{ imgEl.src=images[i]; imgEl.style.opacity=1; },300);
-      }
-      function next(){
-        currentIndex=(currentIndex+1)%images.length;
-        show(currentIndex);
-      }
-      function prev(){
-        currentIndex=(currentIndex-1+images.length)%images.length;
-        show(currentIndex);
-      }
-      nextBtn.addEventListener('click',next);
-      prevBtn.addEventListener('click',prev);
-      setInterval(next,4000);
-    })();
-  </script>
+        let clickableName = "";
+
+        /* USER → show WORKER name (open worker profile popup) */
+        if (currentRole === "user") {
+            clickableName = `
+                <div style="cursor:pointer; color:var(--accent-cyan); font-weight:700"
+                     onclick="openProfile(${n.worker_id})">
+                    Worker: ${n.worker_username}
+                </div>
+            `;
+        }
+
+        /* WORKER → show USER name (open user popup) */
+        if (currentRole === "worker") {
+            clickableName = `
+                <div style="cursor:pointer; color:var(--accent-cyan); font-weight:700"
+                     onclick="openUserPopup(${n.user_id})">
+                    User: ${n.user_username}
+                </div>
+            `;
+        }
+
+        /* Base notification content */
+        let html = `
+            <div style="flex:1;">
+                ${clickableName}
+                <div>Status: ${n.status}</div>
+                <div>Time: ${n.time}</div>
+            </div>
+        `;
+
+        /* ------------------------------------------------------------ */
+        /* ⭐ USER SIDE — worker accepted → show TRACK button */
+        /* ------------------------------------------------------------ */
+        if (currentRole === "user" && n.status === "accepted") {
+
+            // Save worker ID globally so openProfile() can start live tracking
+            window.trackingWorkerId = n.worker_id;
+
+            html += `
+                <div>
+                    <button class="btn-green"
+                        onclick="window.location.href='/tracking/${n.worker_id}'">
+                        Track Worker
+                    </button>
+                </div>
+            `;
+
+            console.log("Live tracking enabled for worker:", n.worker_id);
+        }
+
+        /* ------------------------------------------------------------ */
+        /* ⭐ WORKER SIDE — Accept/Reject pending requests */
+        /* ------------------------------------------------------------ */
+        if (currentRole === "worker" && n.status === "pending") {
+            html += `
+                <div>
+                    <button class="btn-green"
+                        onclick="handleRequest(${n.req_id}, 'accepted', this)">
+                        Accept
+                    </button>
+
+                    <button class="btn-ghost"
+                        onclick="handleRequest(${n.req_id}, 'rejected', this)">
+                        Reject
+                    </button>
+                </div>
+            `;
+        }
+
+        box.innerHTML = html;
+        cont.appendChild(box);
+    });
+}
+
+        /* Worker handles accept/reject */
+function handleRequest(req_id, action, btn) {
+    btn.disabled = true;
+
+    fetch('/api/handle_request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ req_id: req_id, action: action })
+    })
+        .then(r => r.json())
+        .then(resp => {
+            if (resp.error) {
+                alert(resp.error || 'Error');
+                btn.disabled = false;
+                return;
+            }
+
+            /* ⭐ IF WORKER ACCEPTED → START SENDING LIVE GPS */
+            if (currentRole === "worker" && action === "accepted") {
+                console.log("Worker accepted request — live tracking started.");
+                startWorkerLiveTracking(resp.worker_id); 
+            }
+
+            // reload notifications + count
+            fetch('/api/notifications')
+                .then(r => r.json())
+                .then(renderNotifications);
+
+            updateNotifCount();
+        })
+        .catch(() => {
+            alert('Network error');
+            btn.disabled = false;
+        });
+}
+
+
+        /* (Optional) Open requester profile in new window, if you ever use it */
+        function openRequesterProfile(user_id) {
+            fetch(`/view_user/${user_id}`)
+                .then(r => r.text())
+                .then(html => {
+                    const w = window.open("", "_blank", "width=600,height=700");
+                    w.document.write(html);
+                });
+        }
+
+ 
+    </script>
+
+    <!-- 🔥 FIREBASE SDK + CONFIG -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBDl4hecRL6hEhouN8zce9hnBb8z03XxlE",
+    authDomain: "vetana-tracking.firebaseapp.com",
+    databaseURL: "https://vetana-tracking-default-rtdb.firebaseio.com",   // REQUIRED
+    projectId: "vetana-tracking",
+    storageBucket: "vetana-tracking.appspot.com",
+    messagingSenderId: "726246346574",
+    appId: "1:726246346574:web:4bbb8c22b691d1fb1a181f"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+ /* ⭐ Worker Live Location Sender */
+let workerWatchId = null;
+
+function startWorkerLiveTracking(workerId) {
+    if (!navigator.geolocation) {
+        alert("Geolocation not supported on this device.");
+        return;
+    }
+
+    // Start watching location
+    workerWatchId = navigator.geolocation.watchPosition(
+        (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            // Push to Firebase
+            firebase.database().ref("live_locations/worker_" + workerId).set({
+                lat: lat,
+                lng: lng,
+                timestamp: Date.now()
+            });
+        },
+        (err) => {
+            console.error("GPS error:", err);
+        },
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 }
+    );
+}
+
+/* ⭐ Stop tracking when worker closes popup */
+function stopWorkerLiveTracking() {
+    if (workerWatchId !== null) {
+        navigator.geolocation.clearWatch(workerWatchId);
+        workerWatchId = null;
+    }
+}
+</script>
+
+<!-- Correct Google Maps Script -->
+<script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFeQzK2f3xrH5kJNTibM018oUW4c-GBNY&callback=googleMapsLoaded"
+    async defer>
+</script>
+
+
+<script>
+function googleMapsLoaded() {
+    window.googleMapsReady = true;
+}
+</script>
+
+<script>
+function loadStaticWorkerMap() {
+    if (!window.googleMapsReady) {
+        setTimeout(loadStaticWorkerMap, 300);
+        return;
+    }
+
+    const lat = parseFloat(document.getElementById("workerStaticLat").value);
+    const lng = parseFloat(document.getElementById("workerStaticLng").value);
+
+    if (isNaN(lat) || isNaN(lng)) {
+        console.log("❌ Static worker coordinates missing");
+        return;
+    }
+
+    const pos = { lat, lng };
+
+    // Create map
+    window.workerMapObj = new google.maps.Map(
+        document.getElementById("workerMap"),
+        {
+            zoom: 15,
+            center: pos,
+        }
+    );
+
+    new google.maps.Marker({
+        position: pos,
+        map: window.workerMapObj,
+        label: "W"
+    });
+}
+function loadStaticUserMap() {
+    if (!window.googleMapsReady) {
+        setTimeout(loadStaticUserMap, 300);
+        return;
+    }
+
+    const lat = parseFloat(document.getElementById("userStaticLat").value);
+    const lng = parseFloat(document.getElementById("userStaticLng").value);
+
+    if (!lat || !lng) {
+        console.log("No static lat/lng for user.");
+        return;
+    }
+
+    const pos = { lat: lat, lng: lng };
+
+    window.userMapObj = new google.maps.Map(
+        document.getElementById("userMap"),
+        {
+            zoom: 15,
+            center: pos
+        }
+    );
+
+    new google.maps.Marker({
+        position: pos,
+        map: window.userMapObj,
+        label: "U"
+    });
+}
+
+
+// LIVE TRACKING RECEIVER
+function startUserLiveTracking(workerId) {
+    if (!window.googleMapsReady) {
+        setTimeout(() => startUserLiveTracking(workerId), 300);
+        return;
+    }
+
+    const userLat = parseFloat(document.getElementById("userStaticLat").value);
+    const userLng = parseFloat(document.getElementById("userStaticLng").value);
+
+    if (isNaN(userLat) || isNaN(userLng)) {
+        console.log("❌ User static location missing");
+        return;
+    }
+
+    const userPos = { lat: userLat, lng: userLng };
+
+    // Create LIVE MAP replacing workerMap
+    window.userMapObj = new google.maps.Map(
+        document.getElementById("workerMap"),
+        {
+            zoom: 15,
+            center: userPos,
+        }
+    );
+
+    // USER static marker
+    new google.maps.Marker({
+        position: userPos,
+        map: window.userMapObj,
+        label: "U"
+    });
+
+    // LIVE WORKER marker
+    window.liveWorkerMarker = new google.maps.Marker({
+        map: window.userMapObj,
+        label: "W"
+    });
+
+    firebase.database()
+        .ref("live_locations/worker_" + workerId)
+        .on("value", (snap) => {
+            const data = snap.val();
+            if (!data) return;
+
+            const newPos = { lat: data.lat, lng: data.lng };
+            window.liveWorkerMarker.setPosition(newPos);
+            window.userMapObj.setCenter(newPos);
+        });
+}
+
+</script>
+
+
+
 </body>
 </html>

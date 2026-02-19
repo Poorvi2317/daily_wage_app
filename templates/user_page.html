@@ -1,156 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- Defines the document type as HTML5 -->
+<html lang="en"> <!-- Sets the language of the document to English -->
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Details</title>
+  <meta charset="UTF-8"> <!-- Character encoding set to UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design for mobile devices -->
+  <title>User Details</title> <!-- Title of the page displayed on browser tab -->
 
   <!-- ClockPicker CSS & JS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css"> <!-- ClockPicker CSS for time inputs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script> <!-- ClockPicker JS -->
 
   <style>
+    /* Body styling: background image, font, centered container using flex */
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url("{{ url_for('static', filename='app9.jpg') }}") no-repeat center center/cover;
-      color: #FFFFFF;
-      display: flex;
-      justify-content: center;
-      padding: 20px 0;
+      margin: 0; /* Remove default margin */
+      font-family: Arial, sans-serif; /* Font for text */
+      background: url("{{ url_for('static', filename='app9.jpg') }}") no-repeat center center/cover; /* Background image */
+      color: #FFFFFF; /* Default text color */
+      display: flex; /* Flexbox layout */
+      justify-content: center; /* Center horizontally */
+      padding: 20px 0; /* Top and bottom padding */
     }
 
+    /* Container styling: dark background, padding, rounded corners, shadow */
     .container {
-      background: #121212;
-      padding: 20px 25px;
-      border-radius: 12px;
-      width: 750px;
-      box-shadow: 0 0 20px #00D4FF;
+      background: #121212; /* Dark background */
+      padding: 20px 25px; /* Inner spacing */
+      border-radius: 12px; /* Rounded corners */
+      width: 750px; /* Fixed width */
+      box-shadow: 0 0 20px #00D4FF; /* Outer glow shadow */
     }
 
+    /* Title styling */
     h1#user-info-title {
-      font-family: "Times New Roman", Times, serif;
-      font-size: 28px;
-      font-weight: bold;
+      font-family: "Times New Roman", Times, serif; /* Serif font */
+      font-size: 28px; /* Font size */
+      font-weight: bold; /* Bold text */
       color: #00D4FF; ; /* Professional unique color */
-      text-align: center;
-      margin-bottom: 25px;
+      text-align: center; /* Center align */
+      margin-bottom: 25px; /* Space below title */
     }
 
+    /* Section label styling */
     label.section-label {
-      display: block;
-      font-family: "Times New Roman", Times, serif;
-      font-weight: bold;
-      font-size: 18px;
+      display: block; /* Occupy full width */
+      font-family: "Times New Roman", Times, serif; /* Serif font */
+      font-weight: bold; /* Bold text */
+      font-size: 18px; /* Font size */
       color: #00D4FF; /* Professional unique color */
-      margin-top: 15px;
-      margin-bottom: 8px;
+      margin-top: 15px; /* Space above */
+      margin-bottom: 8px; /* Space below */
     }
 
+    /* Checkbox columns styling */
     .checkbox-columns {
-      display: flex;
-      gap: 30px;
-      margin-bottom: 5px;
+      display: flex; /* Flex layout for columns */
+      gap: 30px; /* Space between columns */
+      margin-bottom: 5px; /* Space below */
     }
 
+    /* Individual checkbox column */
     .checkbox-column {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      flex: 1;
+      display: flex; /* Flex layout */
+      flex-direction: column; /* Stack items vertically */
+      gap: 5px; /* Space between items */
+      flex: 1; /* Equal width columns */
     }
 
+    /* Checkbox label styling */
     .checkbox-column label {
-      display: flex;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      font-weight: normal;
-      color: #FFFFFF;
-      line-height: 1.2;
+      display: flex; /* Flex for alignment */
+      align-items: center; /* Center vertically */
+      font-family: Arial, sans-serif; /* Font */
+      font-size: 14px; /* Font size */
+      font-weight: normal; /* Normal weight */
+      color: #FFFFFF; /* Text color */
+      line-height: 1.2; /* Line height */
     }
 
+    /* "Other" input styling, hidden by default */
     .other-input {
-      display: none;
-      margin-left: 5px;
-      padding: 5px;
-      border-radius: 4px;
-      border: 1px solid #00D4FF;
-      background: #2C2C2C;
-      color: #FFFFFF;
-      font-size: 13px;
-      margin-top: 5px;
+      display: none; /* Initially hidden */
+      margin-left: 5px; /* Space from checkbox */
+      padding: 5px; /* Inner spacing */
+      border-radius: 4px; /* Rounded corners */
+      border: 1px solid #00D4FF; /* Border color */
+      background: #2C2C2C; /* Dark background */
+      color: #FFFFFF; /* Text color */
+      font-size: 13px; /* Smaller font size */
+      margin-top: 5px; /* Space above input */
     }
 
+    /* Select and input styling */
     select, input[type="date"], input[type="text"] {
-      width: 100%;
-      padding: 7px 8px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #00D4FF;
-      background: #2C2C2C;
-      color: #FFFFFF;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      outline: none;
+      width: 100%; /* Full width */
+      padding: 7px 8px; /* Inner spacing */
+      margin-bottom: 10px; /* Space below */
+      border-radius: 6px; /* Rounded corners */
+      border: 1px solid #00D4FF; /* Border color */
+      background: #2C2C2C; /* Dark background */
+      color: #FFFFFF; /* Text color */
+      font-family: Arial, sans-serif; /* Font */
+      font-size: 14px; /* Font size */
+      outline: none; /* Remove outline */
     }
 
+    /* Radio group styling */
     .radio-group {
-      display: flex;
-      gap: 20px;
-      margin-top: 5px;
+      display: flex; /* Flex layout */
+      gap: 20px; /* Space between radio buttons */
+      margin-top: 5px; /* Space above */
     }
 
+    /* Radio label styling */
     .radio-group label {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      color: #FFFFFF;
-      line-height: 1.2;
+      font-family: Arial, sans-serif; /* Font */
+      font-size: 14px; /* Font size */
+      color: #FFFFFF; /* Text color */
+      line-height: 1.2; /* Line height */
     }
 
+    /* Submit button styling */
     button {
-      background: #00D4FF;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      width: 100%;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.3s;
-      margin-top: 20px;
+      background: #00D4FF; /* Blue background */
+      color: #000; /* Black text */
+      font-weight: bold; /* Bold text */
+      border: none; /* Remove border */
+      border-radius: 8px; /* Rounded corners */
+      padding: 12px; /* Inner spacing */
+      width: 100%; /* Full width */
+      cursor: pointer; /* Pointer cursor on hover */
+      font-size: 16px; /* Font size */
+      transition: 0.3s; /* Smooth transition */
+      margin-top: 20px; /* Space above button */
     }
 
+    /* Button hover effect */
     button:hover {
-      background: #00FF85;
-      transform: scale(1.05);
+      background: #00FF85; /* Change color on hover */
+      transform: scale(1.05); /* Slight zoom */
     }
 
-    /* ClockPicker width */
+    /* ClockPicker width styling */
     .clockpicker {
-      width: 48%;
+      width: 48%; /* Half width for side-by-side */
     }
 
+    /* Time range container */
     .time-range {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
+      display: flex; /* Flex layout */
+      justify-content: space-between; /* Space between start and end */
+      gap: 10px; /* Space between inputs */
+      margin-bottom: 10px; /* Space below */
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 id="user-info-title">User Info:</h1>
+    <h1 id="user-info-title">User Info:</h1> <!-- Page heading -->
 
+    <!-- Form for user job details -->
     <form method="POST" action="{{ url_for('user_page') }}">
       
-      <!-- Job Requirements -->
-      <label class="section-label">Job Requirements</label>
-      <div class="checkbox-columns">
-        <div class="checkbox-column">
+      <!-- Job Requirements Section -->
+      <label class="section-label">Service Required</label> <!-- Section label -->
+      <div class="checkbox-columns"> <!-- Two-column layout for checkboxes -->
+        <div class="checkbox-column"> <!-- First column of job checkboxes -->
+          <!-- Multiple job requirement checkboxes -->
           <label><input type="checkbox" name="job_requirements" value="Maid / Housekeeping"> Maid / Housekeeping</label>
           <label><input type="checkbox" name="job_requirements" value="Cook / Chef"> Cook / Chef</label>
           <label><input type="checkbox" name="job_requirements" value="Driver / Delivery Person"> Driver / Delivery Person</label>
@@ -159,7 +175,7 @@
           <label><input type="checkbox" name="job_requirements" value="Carpenter"> Carpenter</label>
           <label><input type="checkbox" name="job_requirements" value="Painter"> Painter</label>
         </div>
-        <div class="checkbox-column">
+        <div class="checkbox-column"> <!-- Second column of job checkboxes -->
           <label><input type="checkbox" name="job_requirements" value="Gardener"> Gardener</label>
           <label><input type="checkbox" name="job_requirements" value="Babysitter / Nanny"> Babysitter / Nanny</label>
           <label><input type="checkbox" name="job_requirements" value="Caregiver / Attendant"> Caregiver / Attendant</label>
@@ -169,14 +185,16 @@
           <label><input type="checkbox" name="job_requirements" value="Technician"> Technician</label>
         </div>
       </div>
+      <!-- "Other" option input for job requirements -->
       <label><input type="checkbox" id="job-other-checkbox"> Other
         <input type="text" class="other-input" id="job-other-text" name="job_other" placeholder="Enter other requirement">
       </label>
 
-      <!-- Location -->
+      <!-- Location Section -->
       <label class="section-label" for="location">Location</label>
-      <select name="location" id="location" required>
-        <option value="">--Select Location--</option>
+      <select name="location" id="location" required> <!-- Dropdown for location selection -->
+        <option value="">--Select Location--</option> <!-- Default empty option -->
+        <!-- Multiple hardcoded location options -->
         <option>Navanagar, Bagalkot, Karnataka</option>
         <option>Vidyagiri, Bagalkot, Karnataka</option>
         <option>Neelanagar, Bagalkot, Karnataka</option>
@@ -209,37 +227,35 @@
         <option>Kodag Plot, Bagalkot, Karnataka</option>
       </select>
 
-      <!-- Date Needed -->
+      <!-- Date Needed Section -->
       <label class="section-label" for="date_needed">Date Needed</label>
-      <input type="date" id="date_needed" name="date_needed" required>
+      <input type="date" id="date_needed" name="date_needed" required> <!-- Date input -->
 
-      <!-- Time Needed -->
+      <!-- Time Needed Section -->
       <label class="section-label">Time Needed</label>
-      <div class="time-range">
-  <input type="text" id="startTime" name="startTime" class="clockpicker" data-autoclose="true" placeholder="Start Time" required>
-  <input type="text" id="endTime" name="endTime" class="clockpicker" data-autoclose="true" placeholder="End Time" required>
-</div>
+      <div class="time-range"> <!-- Container for start and end time inputs -->
+        <input type="text" id="startTime" name="startTime" class="clockpicker" data-autoclose="true" placeholder="Start Time" required> <!-- Start time input -->
+        <input type="text" id="endTime" name="endTime" class="clockpicker" data-autoclose="true" placeholder="End Time" required> <!-- End time input -->
+      </div>
 
-
-
-      <!-- Duration -->
+      <!-- Duration Section -->
       <label class="section-label">Duration</label>
-      <div class="radio-group">
+      <div class="radio-group"> <!-- Radio buttons for duration -->
         <label><input type="radio" name="duration" value="Weekly" required> Weekly</label>
         <label><input type="radio" name="duration" value="Monthly" required> Monthly</label>
       </div>
 
-      <!-- Special Requirements -->
+      <!-- Special Requirements Section -->
       <label class="section-label">Special Requirements</label>
-      <div class="checkbox-columns">
-        <div class="checkbox-column">
+      <div class="checkbox-columns"> <!-- Two-column layout -->
+        <div class="checkbox-column"> <!-- First column -->
           <label><input type="checkbox" name="special_requirements" value="Evening Shifts Only"> Evening Shifts Only</label>
           <label><input type="checkbox" name="special_requirements" value="Morning Shifts Only"> Morning Shifts Only</label>
           <label><input type="checkbox" name="special_requirements" value="Weekends Only"> Weekends Only</label>
           <label><input type="checkbox" name="special_requirements" value="Must Speak Basic English"> Must Speak Basic English</label>
           <label><input type="checkbox" name="special_requirements" value="Must Bring Own Tools/Equipment"> Must Bring Own Tools/Equipment</label>
         </div>
-        <div class="checkbox-column">
+        <div class="checkbox-column"> <!-- Second column -->
           <label><input type="checkbox" name="special_requirements" value="Female Worker Preferred"> Female Worker Preferred</label>
           <label><input type="checkbox" name="special_requirements" value="Male Worker Preferred"> Male Worker Preferred</label>
           <label><input type="checkbox" name="special_requirements" value="Should Be Comfortable With Pets"> Should Be Comfortable With Pets</label>
@@ -247,24 +263,28 @@
           <label><input type="checkbox" name="special_requirements" value="Need On-Call Availability"> Need On-Call Availability</label>
         </div>
       </div>
+      <!-- "Other" input for special requirements -->
       <label><input type="checkbox" id="special-other-checkbox"> Other
         <input type="text" class="other-input" id="special-other-text" name="special_other" placeholder="Enter other requirement">
       </label>
 
+      <!-- Submit Button -->
       <button type="submit">Submit</button>
     </form>
   </div>
 
   <script>
-    $('#startTime').clockpicker({ autoclose: true });
-    $('#endTime').clockpicker({ autoclose: true });
+    $('#startTime').clockpicker({ autoclose: true }); // Initialize ClockPicker for start time
+    $('#endTime').clockpicker({ autoclose: true }); // Initialize ClockPicker for end time
 
+    // Toggle display for "Other" job input
     const jobCheckbox = document.getElementById('job-other-checkbox');
     const jobOtherInput = document.getElementById('job-other-text');
     jobCheckbox.addEventListener('change', () => {
       jobOtherInput.style.display = jobCheckbox.checked ? 'inline-block' : 'none';
     });
 
+    // Toggle display for "Other" special requirement input
     const specialCheckbox = document.getElementById('special-other-checkbox');
     const specialOtherInput = document.getElementById('special-other-text');
     specialCheckbox.addEventListener('change', () => {
